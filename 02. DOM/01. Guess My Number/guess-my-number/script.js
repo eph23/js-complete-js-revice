@@ -1,11 +1,9 @@
 'use strict';
 const secretNumber = Math.floor(Math.random() * 20) + 1;
-console.log(secretNumber);
+document.querySelector('.number').textContent = secretNumber; // TODO: Delete later
 
 let score = 20;
 document.querySelector('.score').textContent = score;
-
-document.querySelector('.number').textContent = secretNumber;
 
 const message = document.querySelector('.message');
 
@@ -17,6 +15,9 @@ document.querySelector('.check').addEventListener('click', function () {
     message.textContent = '🚫 No number!';
   } else if (guess === secretNumber) {
     message.textContent = '🍾 Correct Number! 🎉';
+    document.querySelector('body').style.backgroundColor = '#60b347';
+    document.querySelector('.number').style.width = '30rem';
+    // TODO: Uncomment later - document.querySelector('.number').textContent = secretNumber;
   } else if (guess > secretNumber) {
     if (score > 1) {
       message.textContent = '📈 Too high!';
