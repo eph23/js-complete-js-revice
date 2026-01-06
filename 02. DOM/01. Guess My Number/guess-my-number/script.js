@@ -14,42 +14,45 @@ let score = 20;
 let highScore = 0;
 
 let secretNumber = Math.floor(Math.random() * 20) + 1;
-console.log(secretNumber); //TODO: Delete
 
 scoreEl.textContent = score;
 highScoreEl.textContent = highScore;
 
+function displayMessage(message) {
+  messageEl.textContent = message;
+}
+
 btnCheck.addEventListener('click', function () {
   const guess = Number(guessEl.value);
 
+  // If there is no number/guess
   if (!guess) {
-    messageEl.textContent = '🚫 No number!';
-  } else if (guess === secretNumber) {
-    messageEl.textContent = '🍾 Correct Number! 🎉';
+    displayMessage('🚫 No number!');
+  }
+
+  // If guess is correct
+  else if (guess === secretNumber) {
+    displayMessage('🍾 Correct Number! 🎉');
     body.style.backgroundColor = '#60b347';
     numberEl.style.width = '30rem';
     numberEl.textContent = secretNumber;
+
+    btnCheck.disabled = true;
+    guessEl.disabled = true;
 
     if (score > highScore) {
       highScore = score;
       highScoreEl.textContent = highScore;
     }
-  } else if (guess > secretNumber) {
+  }
+  // if guess is wrong
+  else if (guess !== secretNumber) {
     if (score > 1) {
-      messageEl.textContent = '📈 Too high!';
+      displayMessage(guess > secretNumber ? '📈 Too high!' : '📉 Too low!');
       score--;
       scoreEl.textContent = score;
     } else {
-      messageEl.textContent = '🤯 YOU LOST THE GAME...';
-      scoreEl.textContent = 0;
-    }
-  } else if (guess < secretNumber) {
-    if (score > 1) {
-      messageEl.textContent = '📉 Too low!';
-      score--;
-      scoreEl.textContent = score;
-    } else {
-      messageEl.textContent = '🤯 YOU LOST THE GAME...';
+      displayMessage('🤯 YOU LOST THE GAME...');
       scoreEl.textContent = 0;
     }
   }
@@ -58,9 +61,8 @@ btnCheck.addEventListener('click', function () {
 btnAgain.addEventListener('click', function () {
   score = 20;
   secretNumber = Math.floor(Math.random() * 20) + 1;
-  console.log(secretNumber); //TODO: Delete
 
-  messageEl.textContent = 'Start guessing...';
+  displayMessage('Start guessing...');
   scoreEl.textContent = score;
 
   numberEl.textContent = '?';
@@ -68,4 +70,7 @@ btnAgain.addEventListener('click', function () {
 
   body.style.backgroundColor = '#222';
   numberEl.style.width = '15rem';
+
+  btnCheck.disabled = false;
+  guessEl.disabled = false;
 });
