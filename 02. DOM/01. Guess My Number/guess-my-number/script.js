@@ -5,15 +5,19 @@ const numberEl = document.querySelector('.number');
 const guessEl = document.querySelector('.guess');
 const messageEl = document.querySelector('.message');
 const scoreEl = document.querySelector('.score');
+const highScoreEl = document.querySelector('.highscore');
 
 const btnCheck = document.querySelector('.check');
 const btnAgain = document.querySelector('.again');
 
+let score = 20;
+let highScore = 0;
+
 let secretNumber = Math.floor(Math.random() * 20) + 1;
 console.log(secretNumber); //TODO: Delete
-let score = 20;
 
 scoreEl.textContent = score;
+highScoreEl.textContent = highScore;
 
 btnCheck.addEventListener('click', function () {
   const guess = Number(guessEl.value);
@@ -25,6 +29,11 @@ btnCheck.addEventListener('click', function () {
     body.style.backgroundColor = '#60b347';
     numberEl.style.width = '30rem';
     numberEl.textContent = secretNumber;
+
+    if (score > highScore) {
+      highScore = score;
+      highScoreEl.textContent = highScore;
+    }
   } else if (guess > secretNumber) {
     if (score > 1) {
       messageEl.textContent = '📈 Too high!';
